@@ -80,7 +80,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.8.0-rc01")
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
     // Room
