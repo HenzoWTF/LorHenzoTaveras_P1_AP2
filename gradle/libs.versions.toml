@@ -12,6 +12,7 @@ kotlinxSerializationJson = "1.6.3"
 uiTestAndroid = "1.7.0-rc01"
 foundationLayoutAndroid = "1.6.8"
 storage = "1.4.2"
+navigationCompose = "2.8.0"
 
 
 [libraries]
