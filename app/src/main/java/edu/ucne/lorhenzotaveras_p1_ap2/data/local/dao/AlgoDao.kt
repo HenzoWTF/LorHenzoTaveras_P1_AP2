@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface AlgoDao {
 
     @Upsert()
-    suspend fun save()
+    suspend fun save(Algo: AlgoEntity)
 
     @Query("""
         SELECT * 
