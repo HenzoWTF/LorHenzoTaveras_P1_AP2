@@ -18,7 +18,7 @@ fun LorHenzoTaveras_P1_AP2NavHost(
     ) {
         composable<Screen.ListScreen> {
             Button(
-                onClick = { navHostController.navigate(Screen.RegistroScreen) }
+                onClick = { navHostController.navigate(Screen.RegistroScreen(0)) }
             ) {
                 Text("Primera ventana")
             }

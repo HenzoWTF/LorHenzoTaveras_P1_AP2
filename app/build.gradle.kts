@@ -25,6 +25,10 @@ android {
         }
     }
 
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -43,10 +47,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-
-    room {
-        schemaDirectory("$projectDir/schemas")
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -76,21 +76,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
-
-    // Navigation
+    //navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
-    // Room
+    //room
     implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1") // Asegúrate de utilizar 'room-compiler' aquí
     implementation("androidx.room:room-ktx:2.6.1")
 
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.51")
-    ksp("com.google.dagger:hilt-android-compiler:2.51")
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-
 }
