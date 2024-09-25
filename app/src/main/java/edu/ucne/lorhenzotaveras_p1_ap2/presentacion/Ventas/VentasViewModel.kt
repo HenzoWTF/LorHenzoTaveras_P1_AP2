@@ -58,6 +58,12 @@ class VentasViewModel @Inject constructor(
                         }
                     }
                 }
+
+                is VentasUIEvent.VentasIdChanged -> {
+                    _uiState.update {
+                        it.copy(Id = event.ventasId)
+                    }
+                }
             }
         }
     }

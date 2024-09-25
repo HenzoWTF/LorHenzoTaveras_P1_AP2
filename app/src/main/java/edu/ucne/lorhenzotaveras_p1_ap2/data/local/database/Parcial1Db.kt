@@ -9,7 +9,7 @@ import edu.ucne.lorhenzotaveras_p1_ap2.data.local.entities.VentasEntity
     entities = [
         VentasEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class Parcial1Db : RoomDatabase(){
