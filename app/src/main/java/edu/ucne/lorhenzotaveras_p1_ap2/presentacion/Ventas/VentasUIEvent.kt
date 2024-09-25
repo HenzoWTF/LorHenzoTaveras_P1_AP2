@@ -7,5 +7,8 @@ sealed interface VentasUIEvent {
     data class PrecioGalonChange(val Precio: Double) : VentasUIEvent
     data class TotalDescuentoChange(val TotalDescontado: Double) : VentasUIEvent
     data class TotalChange(val Total: Double) : VentasUIEvent
+    data class SelectedVentas(val VentaId: Int) : VentasUIEvent
+    object Save : VentasUIEvent
+    object Delete : VentasUIEvent
 
 }

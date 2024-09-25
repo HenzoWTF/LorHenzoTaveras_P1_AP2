@@ -7,5 +7,11 @@ import androidx.room.PrimaryKey
 data class VentasEntity(
     @PrimaryKey
     val Id: Int? = null,
-    val Nombre: String,
+    val Cliente: String = "",
+    val Galones: Double,
+    val DescuentoPorGalon: Double,
+    val Precio: Double,
+    val TotalDescontado: Double,
+    val Total: Double
+
 )
