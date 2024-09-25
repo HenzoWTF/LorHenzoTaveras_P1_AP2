@@ -1,7 +1,6 @@
 package edu.ucne.lorhenzotaveras_p1_ap2.presentacion.navigation
 
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
