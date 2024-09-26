@@ -1,11 +1,12 @@
 package edu.ucne.lorhenzotaveras_p1_ap2.presentacion.navigation
 
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import edu.ucne.lorhenzotaveras_p1_ap2.presentacion.Ventas.VentasListScreen
+import edu.ucne.lorhenzotaveras_p1_ap2.presentacion.Ventas.VentasScreen
 
 @Composable
 fun LorHenzoTaveras_P1_AP2NavHost(
@@ -16,18 +17,26 @@ fun LorHenzoTaveras_P1_AP2NavHost(
         startDestination = Screen.ListScreen
     ) {
         composable<Screen.ListScreen> {
-            Button(
-                onClick = { navHostController.navigate(Screen.RegistroScreen(0)) }
-            ) {
-                Text("Primera ventana")
-            }
+            VentasListScreen(
+                onAddVentas = {
+                    navHostController.navigate(Screen.RegistroScreen(0))
+                },
+                onVentasClick = { Id ->
+                    navHostController.navigate(Screen.RegistroScreen(Id = Id))
+                }
+            )
         }
-        composable<Screen.RegistroScreen> {
-            Button(
-                onClick = {navHostController.navigate(Screen.ListScreen)}
-            ) {
-                Text("Segunda pantalla")
-            }
+        composable<Screen.RegistroScreen> {argumento ->
+            val id = argumento.toRoute<Screen.RegistroScreen>().Id
+
+            VentasScreen(
+                Id = id,
+                goVentasList = {
+                    navHostController.navigate(
+                        Screen.ListScreen
+                    )
+                }
+            )
         }
     }
 }

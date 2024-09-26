@@ -26,11 +26,33 @@ class VentasViewModel @Inject constructor(
         viewModelScope.launch {
             when(event){
                 is VentasUIEvent.ClienteChange ->  _uiState.update { it.copy(Cliente = event.Cliente) }
-                is VentasUIEvent.DescuentoPorGalonChange ->  _uiState.update { it.copy(DescuentoPorGalon = event.DescuentoPorGalon.toDouble()?: 0.0) }
-                is VentasUIEvent.GalonesChange -> _uiState.update { it.copy(Galones = event.Galones.toDouble()?: 0.0) }
-                is VentasUIEvent.PrecioGalonChange -> _uiState.update { it.copy(Precio = event.Precio.toDouble()?: 0.0) }
-                is VentasUIEvent.TotalChange -> _uiState.update { it.copy(Total = event.Total.toDouble()?: 0.0) }
-                is VentasUIEvent.TotalDescuentoChange -> _uiState.update { it.copy(TotalDescontado = event.TotalDescontado.toDouble()?: 0.0) }
+
+                is VentasUIEvent.DescuentoPorGalonChange -> {
+                    val nuevoDescuento = event.DescuentoPorGalon.toDouble() ?: 0.0
+                    _uiState.update { state ->
+                        val totalDescuento = nuevoDescuento * state.Galones
+                        val total = state.Precio * state.Galones - totalDescuento
+                        state.copy(DescuentoPorGalon = nuevoDescuento, TotalDescontado = totalDescuento, Total = total)
+                    }
+                }
+                is VentasUIEvent.GalonesChange -> {
+                    val nuevosGalones = event.Galones.toDouble() ?: 0.0
+                    _uiState.update { state ->
+                        val totalDescuento = state.DescuentoPorGalon * nuevosGalones
+                        val total = state.Precio * nuevosGalones - totalDescuento
+                        state.copy(Galones = nuevosGalones, TotalDescontado = totalDescuento, Total = total)
+                    }
+                }
+                is VentasUIEvent.PrecioGalonChange -> {
+                    val nuevoPrecio = event.Precio.toDouble() ?: 0.0
+                    _uiState.update { state ->
+                        val totalDescuento = state.DescuentoPorGalon * state.Galones
+                        val total = nuevoPrecio * state.Galones - totalDescuento
+                        state.copy(Precio = nuevoPrecio, TotalDescontado = totalDescuento, Total = total)
+                    }
+                }
+                is VentasUIEvent.TotalChange -> _uiState.update { it.copy(Total = event.Total.toDouble() ?: 0.0) }
+                is VentasUIEvent.TotalDescuentoChange -> _uiState.update { it.copy(TotalDescontado = event.TotalDescontado.toDouble() ?: 0.0) }
                 VentasUIEvent.Delete -> repository.delete(_uiState.value.toEntity())
 
                 VentasUIEvent.Save ->{

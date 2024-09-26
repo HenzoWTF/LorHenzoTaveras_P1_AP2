@@ -153,6 +153,10 @@ fun VentaslistBodyScreen(
                                 modifier = Modifier.weight(0.2f)
                             )
                             Text(
+                                text = "Precio",
+                                modifier = Modifier.weight(0.3f),
+                            )
+                            Text(
                                 text = "Total",
                                 modifier = Modifier.weight(0.3f),
                             )
@@ -197,6 +201,14 @@ fun VentasRow(
         )
         Text(
             text = it.Galones.toString(),
+            modifier = Modifier.weight(1f)
+        )
+        Text(
+            text = it.Precio.toString(),
+            modifier = Modifier.weight(1f)
+        )
+        Text(
+            text = it.Total.toString(),
             modifier = Modifier.weight(1f)
         )
         IconButton(
