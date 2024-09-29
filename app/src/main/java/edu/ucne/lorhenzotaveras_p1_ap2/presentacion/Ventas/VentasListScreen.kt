@@ -143,6 +143,11 @@ fun VentaslistBodyScreen(
                             modifier = Modifier
                         ) {
                             Text(
+                                text = "Id",
+                                style = MaterialTheme.typography.titleSmall,
+                                modifier = Modifier.weight(0.5f)
+                            )
+                            Text(
                                 text = "Cliente",
                                 style = MaterialTheme.typography.titleSmall,
                                 modifier = Modifier.weight(0.5f)
@@ -195,6 +200,10 @@ fun VentasRow(
                 }
             )
     ){
+        Text(
+            text = it.Id.toString(),
+            modifier = Modifier.weight(2f)
+        )
         Text(
             text = it.Cliente,
             modifier = Modifier.weight(2f)

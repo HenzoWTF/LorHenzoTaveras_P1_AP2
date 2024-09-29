@@ -2,7 +2,9 @@ package edu.ucne.lorhenzotaveras_p1_ap2.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "Ventas")
 data class VentasEntity(
     @PrimaryKey

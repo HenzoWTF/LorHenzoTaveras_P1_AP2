@@ -55,15 +55,17 @@ class VentasViewModel @Inject constructor(
                 is VentasUIEvent.TotalDescuentoChange -> _uiState.update { it.copy(TotalDescontado = event.TotalDescontado.toDouble() ?: 0.0) }
                 VentasUIEvent.Delete -> repository.delete(_uiState.value.toEntity())
 
-                VentasUIEvent.Save ->{
+                VentasUIEvent.Save -> {
                     _uiState.value.errorMessages = validateInput()
                     if (_uiState.value.errorMessages == null) {
-                        repository.save(_uiState.value.toEntity())
+                        val entityToSave = _uiState.value.toEntity().copy(Id = null)
+                        repository.save(entityToSave)
                         _uiState.update { it.copy(success = true) }
                     }
                 }
+
                 is VentasUIEvent.SelectedVentas -> {
-                    if (event.VentaId > 0) {
+                    if (event.VentaId != null) {
                         val venta = repository.find(event.VentaId)
                         if (venta != null) {
                             _uiState.update {
