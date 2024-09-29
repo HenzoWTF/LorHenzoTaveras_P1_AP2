@@ -79,6 +79,9 @@ dependencies {
     //navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation ("androidx.compose.material3:material3:1.0.0")
+    implementation ("androidx.compose.ui:ui:1.3.0")
+    implementation ("androidx.compose.foundation:foundation:1.3.0")
 
     //room
     implementation("androidx.room:room-runtime:2.6.1")
@@ -90,4 +93,5 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     ksp("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
 }

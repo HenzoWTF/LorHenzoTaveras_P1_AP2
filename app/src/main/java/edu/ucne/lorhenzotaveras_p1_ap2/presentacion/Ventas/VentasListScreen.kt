@@ -1,7 +1,9 @@
 package edu.ucne.lorhenzotaveras_p1_ap2.presentacion.Ventas
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,22 +16,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.lorhenzotaveras_p1_ap2.data.local.entities.VentasEntity
+import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+
 
 @Composable
 fun VentasListScreen(
@@ -133,7 +127,6 @@ fun VentaslistBodyScreen(
                         }
                     }
                 } else {
-
                     item {
                         HorizontalDivider()
 
@@ -143,19 +136,14 @@ fun VentaslistBodyScreen(
                             modifier = Modifier
                         ) {
                             Text(
-                                text = "Id",
-                                style = MaterialTheme.typography.titleSmall,
-                                modifier = Modifier.weight(0.5f)
-                            )
-                            Text(
                                 text = "Cliente",
                                 style = MaterialTheme.typography.titleSmall,
-                                modifier = Modifier.weight(0.5f)
+                                modifier = Modifier.weight(0.3f)
                             )
                             Text(
                                 text = "Galones",
                                 style = MaterialTheme.typography.titleSmall,
-                                modifier = Modifier.weight(0.2f)
+                                modifier = Modifier.weight(0.3f)
                             )
                             Text(
                                 text = "Precio",
@@ -163,7 +151,7 @@ fun VentaslistBodyScreen(
                             )
                             Text(
                                 text = "Total",
-                                modifier = Modifier.weight(0.3f),
+                                modifier = Modifier.weight(0.2f),
                             )
                         }
                     }
@@ -182,79 +170,119 @@ fun VentaslistBodyScreen(
     }
 }
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VentasRow(
     it: VentasEntity,
     onVentasClick: (Int) -> Unit,
     onDeleteVentas: (Int) -> Unit
-){
-    var ShowDeleteC by remember { mutableStateOf(false) }
+) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .clickable(
-                onClick = {
-                    onVentasClick(it.Id ?: 0)
-                }
-            )
-    ){
-        Text(
-            text = it.Id.toString(),
-            modifier = Modifier.weight(2f)
-        )
-        Text(
-            text = it.Cliente,
-            modifier = Modifier.weight(2f)
-        )
-        Text(
-            text = it.Galones.toString(),
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = it.Precio.toString(),
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = it.Total.toString(),
-            modifier = Modifier.weight(1f)
-        )
-        IconButton(
-            onClick = {
-                onDeleteVentas(it.Id ?: 0)
+
+    val state = rememberSwipeToDismissBoxState(
+        confirmValueChange = { value ->
+            if (value == SwipeToDismissBoxValue.EndToStart) {
+                showDeleteDialog = true
+                false
+            } else {
+                false
             }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = "Eliminar",
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .clickable { ShowDeleteC = true }
-            )
         }
-    }
-    if (ShowDeleteC) {
+    )
+
+    SwipeToDismiss(
+        state = state,
+        background = {
+            val color = if (state.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
+                Color.Red
+            } else Color.Transparent
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color)
+                    .padding(16.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = "Eliminar",
+                    tint = MaterialTheme.colorScheme.onError
+                )
+            }
+        },
+        dismissContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clickable(onClick = { onVentasClick(it.Id ?: 0) })
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = it.Cliente,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = it.Galones.toString(),
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = it.Precio.toString(),
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = it.Total.toString(),
+                    modifier = Modifier.weight(0.5f)
+                )
+            }
+        }
+    )
+
+
+    if (showDeleteDialog) {
         AlertDialog(
-            onDismissRequest = { ShowDeleteC = false },
+            onDismissRequest = { showDeleteDialog = false },
             title = { Text("Confirmar eliminación") },
             text = { Text("¿Estás seguro de que deseas eliminar esta venta?") },
             confirmButton = {
                 Button(
                     onClick = {
                         onDeleteVentas(it.Id ?: 0)
-                        ShowDeleteC = false
+                        showDeleteDialog = false
                     }
                 ) {
                     Text("Eliminar")
                 }
             },
             dismissButton = {
-                Button(onClick = { ShowDeleteC = false }) {
+                Button(onClick = { showDeleteDialog = false }) {
                     Text("Cancelar")
                 }
             }
         )
     }
-    HorizontalDivider()
+}
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun VentaListPreview() {
+    val list = listOf(
+        VentasEntity(
+            Id = 1,
+            Cliente = "Lor",
+            Galones = 5.0,
+            DescuentoPorGalon = 5.0,
+            Precio = 10.0,
+            TotalDescontado = 25.0,
+            Total = 25.0
+        ),
+    )
+
+    VentaslistBodyScreen(
+        uiState = VentasUiState(Ventas = list),
+        onVentasClick ={},
+        onAddVentas = {},
+        onDeleteVentas = {}
+    )
 }
