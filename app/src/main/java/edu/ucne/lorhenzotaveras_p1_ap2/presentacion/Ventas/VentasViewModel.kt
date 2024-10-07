@@ -106,11 +106,16 @@ class VentasViewModel @Inject constructor(
     private fun validateInput(): String? {
         return when {
             _uiState.value.Cliente.isNullOrBlank() -> "EL CLiente no puede estar vacía."
+            !isValidCliente(_uiState.value.Cliente) -> "El Cliente solo puede contener letras."
             _uiState.value.Galones <= 0 -> "Los Galones deben ser mayores que 0."
             _uiState.value.DescuentoPorGalon <= 0 -> "El Descuento Por Galón debe ser mayor que 0."
             _uiState.value.Precio <= 0 -> "El Precio debe ser mayor que 0."
+            _uiState.value.Total <= 0 -> "El Total debe ser mayor que 0."
             else -> null
         }
+    }
+    private fun isValidCliente(cliente: String): Boolean {
+        return cliente.all { it.isLetter() || it.isWhitespace() }
     }
 }
 

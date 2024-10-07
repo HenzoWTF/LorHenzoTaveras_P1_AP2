@@ -79,19 +79,24 @@ dependencies {
     //navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-    implementation ("androidx.compose.material3:material3:1.0.0")
-    implementation ("androidx.compose.ui:ui:1.3.0")
-    implementation ("androidx.compose.foundation:foundation:1.3.0")
+    implementation (libs.material3)
+    implementation (libs.ui)
+    implementation (libs.androidx.foundation)
 
     //room
-    implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1") // Asegúrate de utilizar 'room-compiler' aquí
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.room.compiler)
+    ksp(libs.androidx.room.room.compiler) // Asegúrate de utilizar 'room-compiler' aquí
+    implementation(libs.androidx.room.ktx)
 
     //hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
+    //retrofit
+    implementation(libs.retrofit)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.converter.moshi)
+    implementation(libs.logging.interceptor)
 }
